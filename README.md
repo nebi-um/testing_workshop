@@ -8,7 +8,7 @@ Workshop of code testing
   - [unittest](#unittest)
   - [pytest](#pytest)
 - [Basic concepts](#basic-concepts)
-  - [Setup](#cleanup)
+  - [Setup](#setup)
   - [Teardown](#teardown)
   - [Parametrization](#parametrization)
   - [Temporary Files and Directories](#temp)
