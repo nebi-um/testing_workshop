@@ -4,16 +4,19 @@ Workshop of code testing
 ## Table of contents:
 
 - [Requirements](#requirements)
-- [Basic concepts](#basic-concepts)
 - [Test packages for python](#test-packages-for-python)
   - [unittest](#unittest)
   - [pytest](#pytest)
+- [Basic concepts](#basic-concepts)
+  - [Setup](#cleanup)
+  - [Teardown](#teardown)
+  - [Parametrization](#parametrization)
+  - [Temporary Files and Directories](#temp)
+  - [Asserting Errors](#asserting-errors)
 - [Type of tests](#types-of-tests)
   - [Unit tests](#unit-tests)
   - [Integration tests](#integration-tests)
   - [End-to-end tests](#end-to-end-tests)
-- [Clean up](#cleanup)
-- [Asserting Errors](#asserting-errors)
 - [Mocks](#mocks)
   - [Why using mocks](#why-using-mocks)
   - [How to implement them](#how-to-implement-them)
@@ -27,14 +30,11 @@ Workshop of code testing
 - coverage >= 6.0
 - cProfile (stdlib)
 - timeit (stdlib)
-
+- tempfile (stdlib)
 
 - pytest >= 7.0
 - pytest-cov >= 3.0
 - pytest-mock >= 3.7
-
-<a name="basic-concepts"></a>
-## Basic Concepts
 
 <a name="test-packages-for-python"></a>
 ## Test packages for python
@@ -43,8 +43,9 @@ Workshop of code testing
 ### unittest
 
 It is a standard library for python, and its version will depend on your python instalation.
-[Unittest](https://docs.python.org/3/library/unittest.html)
-[Asserts](https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertEqual)
+
+- [Unittest](https://docs.python.org/3/library/unittest.html)
+- [Asserts](https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertEqual)
 
 #### It has testcases!!!
 
@@ -73,7 +74,29 @@ def test_answer():
     assert inc(3) == 5
 ```
 
-#### It has fixtures!!!
+[More about Fixtures](https://docs.pytest.org/en/7.1.x/how-to/fixtures.html), specialy how to do Teardowns and Cleanups.
+
+<a name="basic-concepts"></a>
+## Basic Concepts
+
+<a name="setup"></a>
+### Setup
+
+#### Unittest
+
+```python
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def test_default_widget_size(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+```
+
+#### Pytest and its fixtures
 
 ```python
 # Functional test fixtures
@@ -106,7 +129,51 @@ class TestClass:
         sum(self.varC, self.modified_varA)
 ```
 
-#### Fixtures can be parametrized!!!
+<a name="teardown"></a>
+### Teardown
+
+#### Unittest
+
+```python
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def tearDown(self):
+        self.widget.dispose()
+        
+    def test_default_widget_size(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+
+```
+
+#### Pytest
+
+[Pytest Teardown](https://docs.pytest.org/en/latest/how-to/fixtures.html#teardown-cleanup-aka-fixture-finalization)
+
+```python
+import pytest
+
+@pytest.fixture()
+def resource():
+    print("setup")
+    yield "resource"
+    print("teardown")
+
+class TestResource:
+    def test_that_depends_on_resource(self, resource):
+        print("testing {}".format(resource))
+```
+
+[Stackoverflow Example](https://stackoverflow.com/a/39401087)
+
+<a name="parametrization"></a>
+### Parametrization
+
+#### Pytest
 
 ```python
 testdata = [
@@ -120,10 +187,47 @@ def test_timedistance_v0(a, b, expected):
     assert diff == expected
 ```
 
-[More about Fixtures](https://docs.pytest.org/en/7.1.x/how-to/fixtures.html), specialy how to do Teardowns and Cleanups.
+<a name="temp"></a>
+### Temporary Files and Directories
+
+[tempfile](https://docs.python.org/3/library/tempfile.html)
+
+```python
+import tempfile
+
+# create a temporary file and write some data to it
+fp = tempfile.TemporaryFile()
+fp.write(b'Hello world!')
+# read data from file
+fp.seek(0)
+fp.read()
+# close the file, it will be removed
+fp.close()
+
+# create a temporary file using a context manager
+with tempfile.TemporaryFile() as fp:
+    fp.write(b'Hello world!')
+    fp.seek(0)
+    fp.read()
+# file is now closed and removed
+
+# create a temporary directory using the context manager
+with tempfile.TemporaryDirectory() as tmpdirname:
+  print('created temporary directory', tmpdirname)
+# directory and contents have been removed
+```
+
+<a name="asserting-errors"></a>
+### Asserting Errors
 
 <a name="types-of-tests"></a>
 ## Type of tests
+
+Tests can be caracterized by their scope. They can test individual functions and methods and other structures, 
+can test the interaction of many, or enven full use case scenarios.
+
+The appropriate coverage of the test with different kinds of tests, guarantes that from its small building blocks, to 
+larger interoperable blocks and usecases, the expectations regarding inputs and outputs are validated.
 
 <a name="unit-tests"></a>
 ### Unit tests
@@ -131,7 +235,7 @@ def test_timedistance_v0(a, b, expected):
 - [Example - Testing IO functions](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_io.py)
 - [Example - Testing Data Structures](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_data_structures.py)
 - [Example - Testing Mocked SeqIO BLAST](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_blast.py)
-- [Example - Testing Mocked Uniprot API call](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_api.py)
+- [Example - Testing Uniprot API call](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_api.py)
 
 <a name="integration-tests"></a>
 ### Integration tests
@@ -144,9 +248,6 @@ def test_timedistance_v0(a, b, expected):
 
 - [Example - Testing a Blast Pipeline](https://github.com/nebi-um/testing_workshop/blob/main/tests/end_to_end_tests/test_blast_pipeline.py)
 
-<a name="asserting-errors"></a>
-## Asserting Errors
-
 <a name="mocks"></a>
 ## Mocks
 
@@ -158,6 +259,8 @@ def test_timedistance_v0(a, b, expected):
 
 <a name="how-to-implement-them"></a>
 ### How to implement them
+
+[MagicMock vs Mock](https://stackoverflow.com/questions/17181687/mock-vs-magicmock)
 
 #### unittest
 
