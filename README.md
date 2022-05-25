@@ -217,6 +217,33 @@ with tempfile.TemporaryDirectory() as tmpdirname:
 # directory and contents have been removed
 ```
 
+```python
+import unittest
+from pathlib import Path
+import tempfile
+
+class TestCase(unittest.TestCase):
+    def setUp(self):
+        self.temp_folder = tempfile.TemporaryDirectory()
+        self.working_dir = Path(self.temp_dir.name)
+
+
+    def tearDown(self):
+        self.temp_folder.cleanup()
+```
+
+```python
+# content of test_tmpdir.py
+def test_create_file(tmpdir):
+    p = tmpdir.mkdir("sub").join("hello.txt")
+    p.write("content")
+    assert p.read() == "content"
+    assert len(tmpdir.listdir()) == 1
+    assert 0
+```
+
+[tmpdir pytest fixtures](https://docs.pytest.org/en/6.2.x/tmpdir.html#the-tmpdir-fixture)
+
 <a name="asserting-errors"></a>
 ### Asserting Errors
 
