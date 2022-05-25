@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import Mock
+from unittest.mock import MagicMock
 
 from Bio.Blast import NCBIXML
 
@@ -9,8 +9,8 @@ from testing_workshop.blast import BLAST
 class TestBlast(TestCase):
 
     def setUp(self) -> None:
-        self.proteome = Mock()
-        self.protein1 = Mock()
+        self.proteome = MagicMock()
+        self.protein1 = MagicMock()
         self.protein1.get_sequence.return_value = "MASLMLSLGSTSLLPREINKDKLKL"
         self.proteome.get_proteins.return_value = {"MyID": self.protein1}
 

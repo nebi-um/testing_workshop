@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import Mock
+from unittest.mock import MagicMock
 
 from testing_workshop.data_structures import Protein, Proteome
 
@@ -12,7 +12,7 @@ class TestDataStructures(TestCase):
         self.assertEqual("MGWVGKKKSTAGQLAGTANELTKEVLERAVHRESPVIRPDVVVGIPAVDRRPKQ", protein.get_sequence())
 
     def test_proteome(self):
-        protein1 = Mock()
+        protein1 = MagicMock()
         protein1.get_sequence.return_value = "MASLMLSLGSTSLLPREINKDKLKL"
         protein1.get_identifier.return_value = "MyID"
         proteome = Proteome(proteins=[protein1])
