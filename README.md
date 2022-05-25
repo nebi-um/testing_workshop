@@ -220,6 +220,47 @@ with tempfile.TemporaryDirectory() as tmpdirname:
 <a name="asserting-errors"></a>
 ### Asserting Errors
 
+#### Unittest
+
+```python
+import unittest
+
+
+def whatever(i):
+    return i/0
+
+
+class TestWhatEver(unittest.TestCase):
+  
+    def test_whatever(self):
+        with self.assertRaises(ZeroDivisionError):
+            whatever(3)
+
+    def test_whatever(self):
+        self.assertRaises(ZeroDivisionError, div, 3,0)
+```
+
+#### Pytest
+
+```python
+def test_raises():
+    with pytest.raises(Exception) as exc_info:   
+        raise Exception('some info')
+    # these asserts are identical; you can use either one   
+    assert exc_info.value.args[0] == 'some info'
+    assert str(exc_info.value) == 'some info'
+
+def test_another_raises():
+  with pytest.raises(ValueError, match='must be 0 or None'):
+      raise ValueError('value must be 0 or None')
+
+def test_the_second_another_raises():
+  with pytest.raises(ValueError, match=r'must be \d+$'):
+      raise ValueError('value must be 42')
+```
+
+[Stackoverflow Discussion](https://stackoverflow.com/questions/23337471/how-to-properly-assert-that-an-exception-gets-raised-in-pytest)
+
 <a name="types-of-tests"></a>
 ## Type of tests
 
