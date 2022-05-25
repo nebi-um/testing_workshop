@@ -12,6 +12,8 @@ Workshop of code testing
   - [Unit tests](#unit-tests)
   - [Integration tests](#integration-tests)
   - [End-to-end tests](#end-to-end-tests)
+- [Clean up](#cleanup)
+- [Asserting Errors](#asserting-errors)
 - [Mocks](#mocks)
   - [Why using mocks](#why-using-mocks)
   - [How to implement them](#how-to-implement-them)
@@ -26,6 +28,7 @@ Workshop of code testing
 - cProfile (stdlib)
 - timeit (stdlib)
 
+
 - pytest >= 7.0
 - pytest-cov >= 3.0
 - pytest-mock >= 3.7
@@ -39,15 +42,35 @@ Workshop of code testing
 <a name="unittest"></a>
 ### unittest
 
+It is a standard library for python, and its version will depend on your python instalation.
+[Unittest](https://docs.python.org/3/library/unittest.html)
+[Asserts](https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertEqual)
+
 #### It has testcases!!!
+
+```python
+import unittest
+
+class DefaultWidgetSizeTestCase(unittest.TestCase):
+    def test_default_widget_size(self):
+        widget = Widget('The widget')
+        self.assertEqual(widget.size(), (50, 50))
+```
 
 <a name="pytest"></a>
 ### pytest
 
 Its is an alternative library, backwards compatible with unittest as well as adding a new design philosophy to tests.
 
-```python
+- [Pytest](https://docs.pytest.org/en/7.1.x/)
+- [Good Practices](https://docs.pytest.org/en/6.2.x/goodpractices.html)
 
+```python
+def inc(x):
+    return x + 1
+
+def test_answer():
+    assert inc(3) == 5
 ```
 
 #### It has fixtures!!!
@@ -99,18 +122,30 @@ def test_timedistance_v0(a, b, expected):
 
 [More about Fixtures](https://docs.pytest.org/en/7.1.x/how-to/fixtures.html), specialy how to do Teardowns and Cleanups.
 
-<a name="paragraph1"></a>
+<a name="types-of-tests"></a>
 ## Type of tests
 
-<a name="paragraph1"></a>
+<a name="unit-tests"></a>
 ### Unit tests
 
-<a name="paragraph1"></a>
+- [Example - Testing IO functions](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_io.py)
+- [Example - Testing Data Structures](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_data_structures.py)
+- [Example - Testing Mocked SeqIO BLAST](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_blast.py)
+- [Example - Testing Mocked Uniprot API call](https://github.com/nebi-um/testing_workshop/blob/main/tests/unit_tests/test_api.py)
+
+<a name="integration-tests"></a>
 ### Integration tests
 
-<a name="paragraph1"></a>
+- [Example - Testing a Data Structure Interaction](https://github.com/nebi-um/testing_workshop/blob/main/tests/integration_tests/test_data_structures_blast.py)
+- [Example - Testing a IO to Data Structure loading](https://github.com/nebi-um/testing_workshop/blob/main/tests/integration_tests/test_io_data_structures.py)
+
+<a name="end-to-end-tests"></a>
 ### End-to-end tests
 
+- [Example - Testing a Blast Pipeline](https://github.com/nebi-um/testing_workshop/blob/main/tests/end_to_end_tests/test_blast_pipeline.py)
+
+<a name="asserting-errors"></a>
+## Asserting Errors
 
 <a name="mocks"></a>
 ## Mocks
