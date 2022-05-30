@@ -17,7 +17,8 @@ class TestDataStructures(TestCase):
         protein1.get_identifier.return_value = "MyID"
         proteome = Proteome(proteins=[protein1])
         self.assertIn("MyID", proteome.get_proteins().keys())
-        self.assertIn(proteome.get_proteins()["MyID"].get_sequence(), "MASLMLSLGSTSLLPREINKDKLKL")
+        protein = proteome.get_proteins()["MyID"]
+        self.assertIn(protein.get_sequence(), "MASLMLSLGSTSLLPREINKDKLKL")
 
         sequence = proteome.get_protein_by_id("MyID")
         self.assertEqual(sequence.get_sequence(), "MASLMLSLGSTSLLPREINKDKLKL")
