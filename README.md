@@ -42,12 +42,23 @@ Workshop of code testing
 <a name="unittest"></a>
 ### unittest
 
-It is a standard library for python, and its version will depend on your python instalation.
+[Unittest](https://docs.python.org/3/library/unittest.html) is a standard library for python, and its version will depend on your python instalation.
 
-- [Unittest](https://docs.python.org/3/library/unittest.html)
-- [Asserts](https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertEqual)
+#### Asserting
 
-#### It has testcases!!!
+Asserting whenever the outputs are as expected is done using methods of the testcase, which follow the pattern:
+
+```python
+self.assertCONDTION
+```
+
+The total list of avaialble asserts is extensive and can be found in the documentation website: [Asserts](https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertEqual)
+
+#### TestCases
+
+The base design of the unittest circles around the concept of the testcase. This is an object that should be inherited.
+
+Usually a testcase is centered around a class in the source code, file or family of functions.
 
 ```python
 import unittest
@@ -58,13 +69,62 @@ class DefaultWidgetSizeTestCase(unittest.TestCase):
         self.assertEqual(widget.size(), (50, 50))
 ```
 
+A useful pattern in developing tests for inherited classes is to create a basic test case.
+For example, when many io methods are implemented, a base testcase responsible for setting up test data throught a SetUp() and TearDown() methods.
+
+```python
+import unittest
+from ABC import ABCMeta
+from pathlib import Path
+from tests import ROOT_DIR
+
+class BaseIOTestCase(metaclass=ABCMeta):
+    def setUp(self) -> None:
+        data_folder = Path(ROOT_DIR) / 'data'
+        self.csv_path = data_folder / "proteins.csv"
+        self.csv_path_write = data_folder / "proteins_written.csv"
+        self.faa_path = data_folder / "proteins.faa"
+        self.faa_path_write = data_folder / "proteins_written.faa"
+        # setup code
+    
+    def tearDown(self) -> None:
+        self.csv_path_write.unlink()
+        self.faa_path_write.unlink()
+    
+    def test_read(self) -> None:
+        pass
+    
+    def test_write(self) -> None:
+        pass
+
+class CSVTestCase(BaseIOTestCase, unittest.TestCase):
+    def test_read(self) -> None:  
+        self.assertTrue(self.csv_path.is_file())
+    
+    def test_write(self) -> None:
+        self.assertFalse(self.csv_path_write.is_file())
+        
+class FAATestCase(BaseIOTestCase, unittest.TestCase):
+    def test_read(self) -> None:
+        self.assertTrue(self.faa_path.is_file())
+    
+    def test_write(self) -> None:
+        self.assertFalse(self.faa_path_write.is_file())
+```
+
 <a name="pytest"></a>
 ### pytest
 
-Its is an alternative library, backwards compatible with unittest as well as adding a new design philosophy to tests.
+[Pytest](https://docs.pytest.org/en/7.1.x/) is an alternative library, backwards compatible with unittest as well as adding a new design philosophy to tests.
+Tests are more functional, and it makes use of powerful python decorators, aswell as a comprehensive plugin library to extend its basic capabilities.
+The user that wants to create TestCase like test layouts can still do it, however this testcase class doesn't need to inherit from package class.
 
-- [Pytest](https://docs.pytest.org/en/7.1.x/)
-- [Good Practices](https://docs.pytest.org/en/6.2.x/goodpractices.html)
+To manage this powerful test engine correctly there is a [Good Practices](https://docs.pytest.org/en/6.2.x/goodpractices.html) guide that provides a clear overviewof good usage patterns.
+
+#### Asserting
+
+This follows the older python syntax, of using the ```assert``` keyword.
+This method employs traditional python boolean loogic and operators for condition verification.
 
 ```python
 def inc(x):
@@ -79,10 +139,20 @@ def test_answer():
 <a name="basic-concepts"></a>
 ## Basic Concepts
 
+There are many conceptsthat are genericand avaialble through the different libraries.
+
 <a name="setup"></a>
 ### Setup
 
+The setup phase of test is usualy isolation of any logic necessary to load, generate or otherwise prepare data, mocks or test cases for the test functions.
+
+Having an isolated setup step allows to use it in multiple similar tests, and well as focusing the test functions in the assertion logic.
+
 #### Unittest
+
+Unittest has a reserved method within the testcase class, called setUp(), that can be overwritten.
+This method will be automaticle run whenever a test within the testcase is ran. On the other hand, when multiple tests with a class are run, it will only be run once before any test starts. Saving time and memory.
+All data and logic that needs to be available in the test functions should be assinged to a variable belonging to the class, following the ```self.var = data``` pattern.
 
 ```python
 import unittest
@@ -96,7 +166,12 @@ class WidgetTestCase(unittest.TestCase):
                          'incorrect default size')
 ```
 
-#### Pytest and its fixtures
+#### Pytest and its fixtures / decorators
+
+On the other hand most setup work in Pytest is done through fixtures / decorators.
+
+Decorators can be used to register fixture functions whose return can be later used. In the test function, multiple fixtures can be called by name.
+Larger scopes can be used, and in a fixture needs to carry many variables, a class scope can be used, with data being accessed similarly to unittest.
 
 ```python
 # Functional test fixtures
@@ -132,7 +207,14 @@ class TestClass:
 <a name="teardown"></a>
 ### Teardown
 
+The testing libraries also offer clean up strategies, so that any data generated by the setup, that can't be simply released from memory, can be cleaned up.
+The aim is to return the test envrioment to its pre-test state. 
+
+Examples of use cases are closing sessions to remote apis or services and cleaning up written files or builds 
+
 #### Unittest
+
+In unittest, the syntax and design follows that of ```self.setUp()```. The new method is now called ```self.tearDown()```, and is run when all the other tests, within a testcase, have been finished.
 
 ```python
 import unittest
@@ -173,7 +255,30 @@ class TestResource:
 <a name="parametrization"></a>
 ### Parametrization
 
+Parametrization is a method of reusing test logic with many similar test conditions, and easly validate many edgecases.
+
+#### Unittest
+
+Though there is not an oficial implementation of this method within unittest. By using loops, data can be cycled through an assert conditon.
+The asserting framework can however prove to be limiting and constraining.
+
+```python
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.test_cases = [(22,1), (44,2)]
+
+        
+    def test_test_cases(self):
+        for case in self.test_cases:
+            input, expected = case
+            self.assertEqual(input/22, expected)
+```
+
 #### Pytest
+
+On the otherhand there is a dedicated framework within pytest for this exact process, where list of tuples are employed, and can be mappedto many variables.
 
 ```python
 testdata = [
