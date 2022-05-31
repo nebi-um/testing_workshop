@@ -597,6 +597,8 @@ It can be very valuble in identifying bugs in the code, that lead to simple code
 
 ### cProfile
 
+This python package, benchmarks functions exectution times, as well as number of calls.
+
 ```python
 import cProfile
 import re
