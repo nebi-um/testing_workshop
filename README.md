@@ -448,6 +448,28 @@ larger interoperable blocks and usecases, the expectations regarding inputs and 
 
 - [Example - Testing a Blast Pipeline](https://github.com/nebi-um/testing_workshop/blob/main/tests/end_to_end_tests/test_blast_pipeline.py)
 
+## Running tests
+
+### Comand Line Interface
+
+```bash
+unittest
+
+pytest
+```
+
+### Name Space
+
+The src code should be available to the interperter, either by adding it to the PYTHONPATH variables, like Pycharm does.
+
+![img_2.png](img_2.png)
+
+Or by instaling the package within a virtual enviroment.
+
+```bash
+pip install -e .
+```
+
 <a name="mocks"></a>
 ## Mocks
 
