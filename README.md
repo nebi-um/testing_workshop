@@ -479,7 +479,25 @@ You can overcome this by mocking this functions.
 <a name="how-to-implement-them"></a>
 ### How to implement them
 
+The Mock library available within the test libraries have Mock objects.
+These are objects whose methods and parameters can be easly declared to return a specific value.
+It is also possible to use Mock objects within another Mock object, to make these representations that much detailed.
+
+In adition to the standard Mock object there is also the MagickMock object.
+What this object does, is to return the user defined returns, when the mocked methods within are called, or when no return has been declared by the user, atempt to fill it, inprompt with a legal value for the method.
+
 [MagicMock vs Mock](https://stackoverflow.com/questions/17181687/mock-vs-magicmock)
+
+Finally mocked objects can provide information about how many times a mocked method has been called, with what arguments, etc. This provides a futher level of avaialble assertions.
+
+### Patching
+
+Patching is where the mocked object is used to overwrite the namespace of an existing function.
+Example:
+
+ > When running the function that calls an API like urllib.request within the function being tested.
+ > The urllib.request interface can be mocked.
+ > The fuction being tested will be then interacting with a Mock object, whose returns we can define.
 
 #### unittest
 
@@ -515,7 +533,7 @@ if __name__ == '__main__':
     unittest.main()
 ```
 
-from [stackoverflow](https://stackoverflow.com/questions/57044593/python-unittest-mock-class-and-class-method)
+Example from [stackoverflow](https://stackoverflow.com/questions/57044593/python-unittest-mock-class-and-class-method)
 
 #### pytest
 
@@ -535,12 +553,19 @@ def test_unix_fs(mocker):
 ```
 
 <a name="code-coverage"></a>
-### Code coverage
+## Code coverage
 
-**Coverage**
-https://coverage.readthedocs.io/en/6.4/
+[Coverage](https://coverage.readthedocs.io/en/6.4/) is a way of running tests for a whole package, with a tracker that identifies what lines of the codebase are tested or not.
 
-![img.png](img.png)
+Although developers should aim for high coverage levels. 
+There is a balance to be had between the time dedicated creating tests and their usefuless. 
+Not everything requires a unique unittest if larger scope tests, like integration offer appropriate coverage.
+
+Generaly these tools provide both an overall coverage percentage, aswell as file level coverage.
+Sometimes detailed HTML reports can be produced that will map visualy the coverage within each file for a project.
+
+The coverage python package can run both pytest and unittests. 
+There is also a pytest-cov plugin that integrates it into the pytest call.
 
 ```bash
 coverage run -m unittest test_arg1.py test_arg2.py test_arg3.py
@@ -560,11 +585,17 @@ myproj/feature4286      94      7    92%
 TOTAL                  353     20    94%
 ```
 
-<a name="profile"></a>
-### Profile
+Pycharm integrates with this tool through the following button. ![img.png](img.png)
 
-![img_1.png](img_1.png)
-#### cProfile
+<a name="profile"></a>
+## Profile
+
+Benchmarking can be a precious tool when tryin to identify bootlenecks.
+Like with coverage, you don't need to profile the whole codebase.
+As long as the most computationaly intensive parts are well identified, and operate within the desired/necessary specifications.
+It can be very valuble in identifying bugs in the code, that lead to simple code being called too freequently, or require long running times.
+
+### cProfile
 
 ```python
 import cProfile
@@ -591,7 +622,13 @@ ncalls  tottime  percall  cumtime  percall filename:lineno(function)
 python -m cProfile [-o output_file] [-s sort_order] (-m module | myscript.py)
 ```
 
-#### timeit
+This tool can also be used within Pycharm, with the ![img_1.png](img_1.png)
+button.
+
+### timeit
+
+This is another python package that time acuratly the runtime for a script, even running it multiple times to produce average run times.
+For time measuring purpouses, it is superior to cProfile, as it has little computational overhead.
 
 ```bash
 python -m timeit [-n N] [-r N] [-u U] [-s S] [-h] [statement ...]
