@@ -234,6 +234,9 @@ class WidgetTestCase(unittest.TestCase):
 
 #### Pytest
 
+Pytest, however, employs a radicaly different strategy. The same fixture used to generate data is also responsible for its cleanup. Fixtures clean after themselves.
+The only change need in the fixture code for this to work is the usage of ```yield DATA``` instead of ```return DATA```.
+
 [Pytest Teardown](https://docs.pytest.org/en/latest/how-to/fixtures.html#teardown-cleanup-aka-fixture-finalization)
 
 ```python
@@ -295,7 +298,10 @@ def test_timedistance_v0(a, b, expected):
 <a name="temp"></a>
 ### Temporary Files and Directories
 
-[tempfile](https://docs.python.org/3/library/tempfile.html)
+Finaly, within python itself, there are useful utilies that might aid us with temporarly storing/writing data. These can be used in conjuction with the setupand teardown methods, or idependently in the body of the test functions.
+
+The [tempfile](https://docs.python.org/3/library/tempfile.html) library allows both the creation of temporary files and temporary directories.
+They are usualy generated within our working directory, though this can be changed, and have manageble lifetimes.
 
 ```python
 import tempfile
@@ -322,6 +328,8 @@ with tempfile.TemporaryDirectory() as tmpdirname:
 # directory and contents have been removed
 ```
 
+The lifetime of the folders can be managed anualy, by using the ```.closed()``` method, or on the other had by employing a context manager. Recall that the context manager uses the ```with .... as ... :``` syntax.
+
 ```python
 import unittest
 from pathlib import Path
@@ -336,6 +344,8 @@ class TestCase(unittest.TestCase):
     def tearDown(self):
         self.temp_folder.cleanup()
 ```
+
+Pytest also has builtin fixtures, that only need to be called for the tempfile library. These temporary folders/files share the lifetime of the test function.
 
 ```python
 # content of test_tmpdir.py
