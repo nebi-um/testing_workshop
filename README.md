@@ -362,7 +362,20 @@ def test_create_file(tmpdir):
 <a name="asserting-errors"></a>
 ### Asserting Errors
 
+It is particulary important to test our erro logic, namly to chek if our error handling is capable of detecting input errors.
+
 #### Unittest
+
+Using unittest there are two paths to detect the that an error has been raised.
+
+This can either be using the ```self.assertRaises()``` assertion, either normaly. 
+Though be careful as the first argument is the function you want to test, and the following the *nargs to be passed to it.
+
+Or on the other hand the ```self.assertRaises()``` assertion can be used within a context manager. 
+The function that is supposed to raise the error can just be used within this context. 
+The manager will catch any exception raised.
+
+With either approach the used should pass the error type, for example ```ZeroDivisionError```, ```TypeError```, among others. 
 
 ```python
 import unittest
@@ -383,6 +396,10 @@ class TestWhatEver(unittest.TestCase):
 ```
 
 #### Pytest
+
+
+Pytest operates simirlarly to the unittestusageof a context mananger. However, an output to the context mananger can be defined and later evaluted on, to test error messages, among other implementation details.
+Alternativly to query the error message body, the used can also the named argument ```match="pattern"```. This will query the error message using Regular Expressions.
 
 ```python
 def test_raises():
