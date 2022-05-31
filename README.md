@@ -451,11 +451,30 @@ larger interoperable blocks and usecases, the expectations regarding inputs and 
 <a name="mocks"></a>
 ## Mocks
 
+Mocking is atechnique in testing code. The developer creates simples creates "fake" data, objects.
+Sometimes even patching over existing functions with these representations.
+
+There is tooling for both packages (unittest / pytest), based around the mock library, that is now part of unittest.
+
 - [unittest.mock](https://docs.python.org/3/library/unittest.mock.html)
 - [pytest-mock](https://pypi.org/project/pytest-mock/)
 
 <a name="why-using-mocks"></a>
 ### Why using mocks
+
+Many times it is very useful to mock code, that is outside the scope of our tests, but it is still used by the code being tested.
+
+- When running unit tests, isolating the code being tested from the code it depends one, helps trace the source of errors. 
+Otherwise, it can be dificult to determine the source of the error. 
+
+- When depending on computationaly or resurce intensive code, like alignment tools or API calls. 
+
+- Mocking can also be used to simplify the test setup, as mocking external libraries or APIs makes tests idependt of access to them, simplyfing the overall setup.
+For this last use case, some end to end code tests should also guarantee that the integration works. 
+But only need to run it sporadicly, like at Merge time, to increase developement speed.
+
+- Functions in which ur code depends, might generate undeterministic results, which make it harder to test. 
+You can overcome this by mocking this functions.
 
 <a name="how-to-implement-them"></a>
 ### How to implement them
@@ -521,6 +540,8 @@ def test_unix_fs(mocker):
 **Coverage**
 https://coverage.readthedocs.io/en/6.4/
 
+![img.png](img.png)
+
 ```bash
 coverage run -m unittest test_arg1.py test_arg2.py test_arg3.py
 
@@ -542,6 +563,7 @@ TOTAL                  353     20    94%
 <a name="profile"></a>
 ### Profile
 
+![img_1.png](img_1.png)
 #### cProfile
 
 ```python
@@ -574,3 +596,30 @@ python -m cProfile [-o output_file] [-s sort_order] (-m module | myscript.py)
 ```bash
 python -m timeit [-n N] [-r N] [-u U] [-s S] [-h] [statement ...]
 ```
+
+## Moving into CI/CD
+
+If you are interested to move even further into the paradigm of using tests as part of your development activities, then you should
+look into some futher topics:
+
+- CI/CD pipelines: 
+  - CircleCI
+  - Gitlab
+  - Jenkins
+  - Github Actions
+- Linting
+  - flake8
+- Type Checker
+  - mypy
+- Isolated Environments  
+  - tox
+- Local code CD
+  - pre-commit
+- Virtual Enviroments
+  - venv
+- Packaging
+  - setuptools (setup.cfg based packages is the most modern approach)
+
+Interested, but confused?
+
+There will be a new workshop covering this topics in the future!
