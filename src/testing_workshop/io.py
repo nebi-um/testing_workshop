@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Union, AnyStr, TextIO
 
 from Bio import SeqIO
-from typing.io import IO
+from typing import IO
 import pandas as pd
 
 from testing_workshop.data_structures import Protein, Proteome

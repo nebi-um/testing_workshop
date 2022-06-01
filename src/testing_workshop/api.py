@@ -61,4 +61,4 @@ class UniProtAPI:
         if len(sequences) > 0:
             return sequences[0]
         else:
-            raise ValueError()
+            raise ValueError("marmelada")

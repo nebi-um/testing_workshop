@@ -18,8 +18,10 @@ class TestUniProtAPI(TestCase):
 
     def test_invalid_id(self):
         identifier = "L90J53"
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as exception:
             UniProtAPI().get_protein_sequence_by_id(identifier)
+
+        self.assertEqual(str(exception.exception), "Identifier does not exist")
 
     def test_with_mock(self):
         with patch('urllib.request.urlopen') as mock_request:
