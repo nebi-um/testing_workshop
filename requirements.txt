@@ -1,2 +1,5 @@
 biopython>=1.79
-pytest
+pytest >= 7.0
+coverage >= 6.0
+pytest-cov >= 3.0
+pytest-mock >= 3.7

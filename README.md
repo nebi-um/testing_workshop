@@ -17,6 +17,9 @@ Workshop of code testing
   - [Unit tests](#unit-tests)
   - [Integration tests](#integration-tests)
   - [End-to-end tests](#end-to-end-tests)
+- [Running tests](#run)
+  - [Comand Line Interface](#cmd)
+  - [Name Space](#name-space)
 - [Mocks](#mocks)
   - [Why using mocks](#why-using-mocks)
   - [How to implement them](#how-to-implement-them)
@@ -42,11 +45,11 @@ Workshop of code testing
 <a name="unittest"></a>
 ### unittest
 
-[Unittest](https://docs.python.org/3/library/unittest.html) is a standard library for python, and its version will depend on your python instalation.
+[Unittest](https://docs.python.org/3/library/unittest.html) is a standard library for python. Its version will depend on your python instalation.
 
 #### Asserting
 
-Asserting whenever the outputs are as expected is done using methods of the testcase, which follow the pattern:
+Asserting whenever the outputs are as expected is done through methods of the testcase, which follow the pattern:
 
 ```python
 self.assertCONDTION
@@ -56,7 +59,7 @@ The total list of avaialble asserts is extensive and can be found in the documen
 
 #### TestCases
 
-The base design of the unittest circles around the concept of the testcase. This is an object that should be inherited.
+The base design of unittest circles around the concept of the testcase. This is an object that should be inherited.
 
 Usually a testcase is centered around a class in the source code, file or family of functions.
 
@@ -69,8 +72,8 @@ class DefaultWidgetSizeTestCase(unittest.TestCase):
         self.assertEqual(widget.size(), (50, 50))
 ```
 
-A useful pattern in developing tests for inherited classes is to create a basic test case.
-For example, when many io methods are implemented, a base testcase responsible for setting up test data throught a SetUp() and TearDown() methods.
+A useful pattern in developing tests for inherited classes is to create a shared template test case.
+For example, when many io methods are implemented, a base testcase canbe tasked with setting up test data through the SetUp() and TearDown() methods.
 
 ```python
 import unittest
@@ -115,15 +118,15 @@ class FAATestCase(BaseIOTestCase, unittest.TestCase):
 <a name="pytest"></a>
 ### pytest
 
-[Pytest](https://docs.pytest.org/en/7.1.x/) is an alternative library, backwards compatible with unittest as well as adding a new design philosophy to tests.
-Tests are more functional, and it makes use of powerful python decorators, aswell as a comprehensive plugin library to extend its basic capabilities.
-The user that wants to create TestCase like test layouts can still do it, however this testcase class doesn't need to inherit from package class.
+[Pytest](https://docs.pytest.org/en/7.1.x/) is an alternative library, backwards compatible with the unittest syntax as well as adding a new design philosophy to tests.
+Tests are more functional, and it makes use of powerful python decorators aswell as a comprehensive plugin library to extend its capabilities.
+TestCase-like test layouts can still do employed, however, this test case class doesn't need to inherit from any package class.
 
-To manage this powerful test engine correctly there is a [Good Practices](https://docs.pytest.org/en/6.2.x/goodpractices.html) guide that provides a clear overviewof good usage patterns.
+To correclty employ this powerful test engine correctly there is a [Good Practices](https://docs.pytest.org/en/6.2.x/goodpractices.html) guide that provides a clear overview of good usage patterns to adress common tasks.
 
 #### Asserting
 
-This follows the older python syntax, of using the ```assert``` keyword.
+Pytest follows the older python syntax, of using the ```assert``` keyword.
 This method employs traditional python boolean loogic and operators for condition verification.
 
 ```python
@@ -132,26 +135,34 @@ def inc(x):
 
 def test_answer():
     assert inc(3) == 5
+
+# test case
+class TestCase():
+  def inc(x):
+      return x + 1
+  
+  def test_answer():
+      assert inc(3) == 5
 ```
 
-[More about Fixtures](https://docs.pytest.org/en/7.1.x/how-to/fixtures.html), specialy how to do Teardowns and Cleanups.
+[More about Fixtures](https://docs.pytest.org/en/7.1.x/how-to/fixtures.html), specialy how to do Tear downs and Cleanups.
 
 <a name="basic-concepts"></a>
 ## Basic Concepts
 
-There are many conceptsthat are genericand avaialble through the different libraries.
+There are many concepts that are generic and avaialble through the different libraries.
 
 <a name="setup"></a>
 ### Setup
 
-The setup phase of test is usualy isolation of any logic necessary to load, generate or otherwise prepare data, mocks or test cases for the test functions.
+The setup phase of testing is usualy isolated contains any logic necessary to load, generate or otherwise prepare data, mocks or test cases for the test functions.
 
-Having an isolated setup step allows to use it in multiple similar tests, and well as focusing the test functions in the assertion logic.
+Having an isolated setup opens the doors to reusability in similar tests, well as focusing the test functions in the assertion logic.
 
 #### Unittest
 
 Unittest has a reserved method within the testcase class, called setUp(), that can be overwritten.
-This method will be automaticle run whenever a test within the testcase is ran. On the other hand, when multiple tests with a class are run, it will only be run once before any test starts. Saving time and memory.
+This method will be automaticaly run whenever a test within the same testcase is run. On the other hand, when multiple tests with a class are run, it will only be run once before any test starts. Saving time and memory.
 All data and logic that needs to be available in the test functions should be assinged to a variable belonging to the class, following the ```self.var = data``` pattern.
 
 ```python
@@ -207,10 +218,10 @@ class TestClass:
 <a name="teardown"></a>
 ### Teardown
 
-The testing libraries also offer clean up strategies, so that any data generated by the setup, that can't be simply released from memory, can be cleaned up.
+The testing libraries also offer clean up strategies, so that any data generated by the setup, that can't be simply released from memory, can be properly disposed of.
 The aim is to return the test envrioment to its pre-test state. 
 
-Examples of use cases are closing sessions to remote apis or services and cleaning up written files or builds 
+Common examples include closing sessions to remote apis or services and cleaning up written files or builds.
 
 #### Unittest
 
@@ -235,7 +246,7 @@ class WidgetTestCase(unittest.TestCase):
 #### Pytest
 
 Pytest, however, employs a radicaly different strategy. The same fixture used to generate data is also responsible for its cleanup. Fixtures clean after themselves.
-The only change need in the fixture code for this to work is the usage of ```yield DATA``` instead of ```return DATA```.
+The only change need in the fixture code for this to work is the usage of ```yield DATA``` instead of ```return DATA```. Any logic after the yield will be run after the test is completed.
 
 [Pytest Teardown](https://docs.pytest.org/en/latest/how-to/fixtures.html#teardown-cleanup-aka-fixture-finalization)
 
@@ -258,12 +269,12 @@ class TestResource:
 <a name="parametrization"></a>
 ### Parametrization
 
-Parametrization is a method of reusing test logic with many similar test conditions, and easly validate many edgecases.
+Parametrization is a method of reusing test logic with as many test conditions as possible, helping validate many edgecases.
 
 #### Unittest
 
-Though there is not an oficial implementation of this method within unittest. By using loops, data can be cycled through an assert conditon.
-The asserting framework can however prove to be limiting and constraining.
+Though there is not an oficial implementation of this method within unittest. By using loops, data can be cycled through an assertion conditon.
+The base assertion framework can however prove to be limiting and constraining.
 
 ```python
 import unittest
@@ -281,7 +292,7 @@ class WidgetTestCase(unittest.TestCase):
 
 #### Pytest
 
-On the otherhand there is a dedicated framework within pytest for this exact process, where list of tuples are employed, and can be mappedto many variables.
+On the otherhand there is a dedicated framework within pytest for this exact process, where lists of tuples are employed, and can be mapped to many variables.
 
 ```python
 testdata = [
@@ -298,7 +309,7 @@ def test_timedistance_v0(a, b, expected):
 <a name="temp"></a>
 ### Temporary Files and Directories
 
-Finaly, within python itself, there are useful utilies that might aid us with temporarly storing/writing data. These can be used in conjuction with the setupand teardown methods, or idependently in the body of the test functions.
+Finaly, within python itself, there are useful utilies that might aid us with temporarly storing/writing data. These can be used in conjuction with the setup and teardown methods, or idependently in the body of the test functions.
 
 The [tempfile](https://docs.python.org/3/library/tempfile.html) library allows both the creation of temporary files and temporary directories.
 They are usualy generated within our working directory, though this can be changed, and have manageble lifetimes.
@@ -328,7 +339,7 @@ with tempfile.TemporaryDirectory() as tmpdirname:
 # directory and contents have been removed
 ```
 
-The lifetime of the folders can be managed anualy, by using the ```.closed()``` method, or on the other had by employing a context manager. Recall that the context manager uses the ```with .... as ... :``` syntax.
+The lifetime of the folders can be managed manualy, by using the ```.closed()``` method, or on the other had by employing a context manager. Recall that the context manager uses the ```with .... as ... :``` syntax.
 
 ```python
 import unittest
@@ -368,7 +379,7 @@ It is particulary important to test our erro logic, namly to chek if our error h
 
 Using unittest there are two paths to detect the that an error has been raised.
 
-This can either be using the ```self.assertRaises()``` assertion, either normaly. 
+You can on one hand use the ```self.assertRaises()``` assertion normaly. 
 Though be careful as the first argument is the function you want to test, and the following the *nargs to be passed to it.
 
 Or on the other hand the ```self.assertRaises()``` assertion can be used within a context manager. 
@@ -398,14 +409,14 @@ class TestWhatEver(unittest.TestCase):
 #### Pytest
 
 
-Pytest operates simirlarly to the unittestusageof a context mananger. However, an output to the context mananger can be defined and later evaluted on, to test error messages, among other implementation details.
-Alternativly to query the error message body, the used can also the named argument ```match="pattern"```. This will query the error message using Regular Expressions.
+Pytest operates simirlarly to the unittest usage of a context mananger. However, an output to the context mananger can be defined and later evaluted on, to test error messages, among other implementation details.
+Alternativly to query the error message body, the named argument ```match="pattern"``` can be employed. This will query the error message using Regular Expressions.
 
 ```python
 def test_raises():
     with pytest.raises(Exception) as exc_info:   
         raise Exception('some info')
-    # these asserts are identical; you can use either one   
+    # these assert calls are identical; you can use either one   
     assert exc_info.value.args[0] == 'some info'
     assert str(exc_info.value) == 'some info'
 
@@ -448,23 +459,33 @@ larger interoperable blocks and usecases, the expectations regarding inputs and 
 
 - [Example - Testing a Blast Pipeline](https://github.com/nebi-um/testing_workshop/blob/main/tests/end_to_end_tests/test_blast_pipeline.py)
 
+<a name="run"></a>
 ## Running tests
 
+The tests can be called within the command line or the IDE.
+
+<a name="cmd"></a>
 ### Comand Line Interface
 
-```bash
-unittest
+Both packages offer simple command lines. Pay careful atention to your working directory when using the auto-discovery features.
 
-pytest
+```bash
+python -m unittest # Uses automatic test discovery
+python -m unittest -v test_module # pass a module
+python -m unittest tests/test_something.py
+
+pytest # Uses automatic test discovery
+pytest -q test_sysexit.py #less verbose output
 ```
 
+<a name="name-space"></a>
 ### Name Space
 
 The src code should be available to the interperter, either by adding it to the PYTHONPATH variables, like Pycharm does.
 
 ![img_2.png](img_2.png)
 
-Or by instaling the package within a virtual enviroment.
+Or by instaling the package within a virtual enviroment. This requires that the package configuration has been done.
 
 ```bash
 pip install -e .
@@ -473,7 +494,7 @@ pip install -e .
 <a name="mocks"></a>
 ## Mocks
 
-Mocking is atechnique in testing code. The developer creates simples creates "fake" data, objects.
+Mocking is a technique used in testing code. The developer creates "fake" data, objects or functions.
 Sometimes even patching over existing functions with these representations.
 
 There is tooling for both packages (unittest / pytest), based around the mock library, that is now part of unittest.
@@ -486,31 +507,31 @@ There is tooling for both packages (unittest / pytest), based around the mock li
 
 Many times it is very useful to mock code, that is outside the scope of our tests, but it is still used by the code being tested.
 
-- When running unit tests, isolating the code being tested from the code it depends one, helps trace the source of errors. 
+- When running unit tests, isolating the code being tested from the code it depends on, helps trace the source of errors. 
 Otherwise, it can be dificult to determine the source of the error. 
 
-- When depending on computationaly or resurce intensive code, like alignment tools or API calls. 
+- When depending on computationaly or resource intensive code, like alignment tools or API calls. 
 
-- Mocking can also be used to simplify the test setup, as mocking external libraries or APIs makes tests idependt of access to them, simplyfing the overall setup.
-For this last use case, some end to end code tests should also guarantee that the integration works. 
-But only need to run it sporadicly, like at Merge time, to increase developement speed.
+- Mocking can also be used to simplify the test setup, as mocking external libraries or APIs makes tests idependent of access to them, simplyfing the overall setup.
+For this last use case, some end to end code tests should at least guarantee that the integration actually works with the true third party library. 
+But there is only a need to run it sporadicly, like at Merge time, to increase developement speed.
 
-- Functions in which ur code depends, might generate undeterministic results, which make it harder to test. 
-You can overcome this by mocking this functions.
+- Functions in which your code depends, might generate undeterministic results, which make it harder to test. 
+You can overcome this by mocking these functions.
 
 <a name="how-to-implement-them"></a>
 ### How to implement them
 
 The Mock library available within the test libraries have Mock objects.
-These are objects whose methods and parameters can be easly declared to return a specific value.
+These are objects whose methods and parameters can be easily declared to return a specific value.
 It is also possible to use Mock objects within another Mock object, to make these representations that much detailed.
 
 In adition to the standard Mock object there is also the MagickMock object.
-What this object does, is to return the user defined returns, when the mocked methods within are called, or when no return has been declared by the user, atempt to fill it, inprompt with a legal value for the method.
+What this object does, is to return the user defined returns, when the mocked methods within are called, or when no return has been declared by the user, atempt to fill it, inpromptly with a legal value for the method.
 
 [MagicMock vs Mock](https://stackoverflow.com/questions/17181687/mock-vs-magicmock)
 
-Finally mocked objects can provide information about how many times a mocked method has been called, with what arguments, etc. This provides a futher level of avaialble assertions.
+Finally, mocked objects can provide information about how many times a mocked method has been called, with what arguments, etc. This provides a further level of avaialble assertions.
 
 ### Patching
 
@@ -615,7 +636,7 @@ Pycharm integrates with this tool through the following button. ![img.png](img.p
 Benchmarking can be a precious tool when tryin to identify bootlenecks.
 Like with coverage, you don't need to profile the whole codebase.
 As long as the most computationaly intensive parts are well identified, and operate within the desired/necessary specifications.
-It can be very valuble in identifying bugs in the code, that lead to simple code being called too freequently, or require long running times.
+It can be very valuble in identifying bugs in the code, that lead to simple code being called too freequently, or require long-running times.
 
 ### cProfile
 
@@ -667,7 +688,7 @@ look into some futher topics:
   - CircleCI
   - Gitlab
   - Jenkins
-  - Github Actions
+  - GitHub Actions
 - Linting
   - flake8
 - Type Checker
@@ -683,4 +704,4 @@ look into some futher topics:
 
 Interested, but confused?
 
-There will be a new workshop covering this topics in the future!
+There will be a new workshop covering these topics in the future!
