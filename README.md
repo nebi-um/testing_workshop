@@ -25,6 +25,11 @@ Workshop of code testing
   - [How to implement them](#how-to-implement-them)
 - [Code coverage](#code-coverage)
 - [Profile](#profile)
+  - [cProfile](#cprofile)
+  - [timeit](#timeit)
+- [Practice Exercises](#exercises)
+- [Moving into CI/CD](#future)
+
 
 <a name="requirements"></a>
 ## Requirements
@@ -638,6 +643,7 @@ Like with coverage, you don't need to profile the whole codebase.
 As long as the most computationaly intensive parts are well identified, and operate within the desired/necessary specifications.
 It can be very valuble in identifying bugs in the code, that lead to simple code being called too freequently, or require long-running times.
 
+<a name="cprofile"></a>
 ### cProfile
 
 This python package, benchmarks functions exectution times, as well as number of calls.
@@ -670,6 +676,7 @@ python -m cProfile [-o output_file] [-s sort_order] (-m module | myscript.py)
 This tool can also be used within Pycharm, with the ![img_1.png](img_1.png)
 button.
 
+<a name="timeit"></a>
 ### timeit
 
 This is another python package that time acuratly the runtime for a script, even running it multiple times to produce average run times.
@@ -679,6 +686,17 @@ For time measuring purpouses, it is superior to cProfile, as it has little compu
 python -m timeit [-n N] [-r N] [-u U] [-s S] [-h] [statement ...]
 ```
 
+<a name="exercises"></a>
+## Practice Exercises
+
+- Write a test where you test whether the method get_protein_by_id() of the Proteome class raises a KeyError when passing an identifier that does not exist.
+  - [Example](https://github.com/nebi-um/testing_workshop/blob/main/tests/integration_tests/test_data_structures_blast.py)
+- Write unit and integration tests where it is possible to mock the BLAST call.
+  - [Example](https://github.com/nebi-um/testing_workshop/blob/main/tests/integration_tests/test_data_structures_blast.py)
+- Write a E2E test with the API call.​
+  - [Example](https://github.com/nebi-um/testing_workshop/blob/main/tests/integration_tests/test_data_structures_blast.py)
+
+<a name="future"></a>
 ## Moving into CI/CD
 
 If you are interested to move even further into the paradigm of using tests as part of your development activities, then you should
