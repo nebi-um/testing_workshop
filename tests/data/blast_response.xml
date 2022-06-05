@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<!DOCTYPE BlastOutput PUBLIC "-//NCBI//NCBI BlastOutput/EN" "http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">
+<BlastOutput>
+  <BlastOutput_program>blastp</BlastOutput_program>
+  <BlastOutput_version>BLASTP 2.13.0+</BlastOutput_version>
+  <BlastOutput_reference>Stephen F. Altschul, Thomas L. Madden, Alejandro A. Sch&amp;auml;ffer, Jinghui Zhang, Zheng Zhang, Webb Miller, and David J. Lipman (1997), &quot;Gapped BLAST and PSI-BLAST: a new generation of protein database search programs&quot;, Nucleic Acids Res. 25:3389-3402.</BlastOutput_reference>
+  <BlastOutput_db>swissprot</BlastOutput_db>
+  <BlastOutput_query-ID>Query_54423</BlastOutput_query-ID>
+  <BlastOutput_query-def>unnamed protein product</BlastOutput_query-def>
+  <BlastOutput_query-len>25</BlastOutput_query-len>
+  <BlastOutput_param>
+    <Parameters>
+      <Parameters_matrix>BLOSUM62</Parameters_matrix>
+      <Parameters_expect>10</Parameters_expect>
+      <Parameters_gap-open>11</Parameters_gap-open>
+      <Parameters_gap-extend>1</Parameters_gap-extend>
+      <Parameters_filter>F</Parameters_filter>
+    </Parameters>
+  </BlastOutput_param>
+<BlastOutput_iterations>
+<Iteration>
+  <Iteration_iter-num>1</Iteration_iter-num>
+  <Iteration_query-ID>Query_54423</Iteration_query-ID>
+  <Iteration_query-def>unnamed protein product</Iteration_query-def>
+  <Iteration_query-len>25</Iteration_query-len>
+<Iteration_hits>
+<Hit>
+  <Hit_num>1</Hit_num>
+  <Hit_id>sp|P46248.2|</Hit_id>
+  <Hit_def>RecName: Full=Aspartate aminotransferase, chloroplastic; AltName: Full=Transaminase A; Flags: Precursor [Arabidopsis thaliana]</Hit_def>
+  <Hit_accession>P46248</Hit_accession>
+  <Hit_len>453</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>49.6766</Hsp_bit-score>
+      <Hsp_score>117</Hsp_score>
+      <Hsp_evalue>5.40058e-10</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>25</Hsp_query-to>
+      <Hsp_hit-from>1</Hsp_hit-from>
+      <Hsp_hit-to>25</Hsp_hit-to>
+      <Hsp_query-frame>0</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>25</Hsp_identity>
+      <Hsp_positive>25</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>25</Hsp_align-len>
+      <Hsp_qseq>MASLMLSLGSTSLLPREINKDKLKL</Hsp_qseq>
+      <Hsp_hseq>MASLMLSLGSTSLLPREINKDKLKL</Hsp_hseq>
+      <Hsp_midline>MASLMLSLGSTSLLPREINKDKLKL</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>2</Hit_num>
+  <Hit_id>sp|P98205.1|</Hit_id>
+  <Hit_def>RecName: Full=Phospholipid-transporting ATPase 2; Short=AtALA2; AltName: Full=Aminophospholipid ATPase 2; AltName: Full=Aminophospholipid flippase 2 [Arabidopsis thaliana]</Hit_def>
+  <Hit_accession>P98205</Hit_accession>
+  <Hit_len>1107</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>21.557</Hsp_bit-score>
+      <Hsp_score>44</Hsp_score>
+      <Hsp_evalue>6.42258</Hsp_evalue>
+      <Hsp_query-from>1</Hsp_query-from>
+      <Hsp_query-to>21</Hsp_query-to>
+      <Hsp_hit-from>1028</Hsp_hit-from>
+      <Hsp_hit-to>1048</Hsp_hit-to>
+      <Hsp_query-frame>0</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>9</Hsp_identity>
+      <Hsp_positive>12</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>21</Hsp_align-len>
+      <Hsp_qseq>MASLMLSLGSTSLLPREINKD</Hsp_qseq>
+      <Hsp_hseq>MGGPILTLGNIETQPRTIEKD</Hsp_hseq>
+      <Hsp_midline>M   +L+LG+    PR I KD</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+<Hit>
+  <Hit_num>3</Hit_num>
+  <Hit_id>sp|Q39054.2|</Hit_id>
+  <Hit_def>RecName: Full=Molybdopterin biosynthesis protein CNX1; AltName: Full=Molybdenum cofactor biosynthesis enzyme CNX1; Includes: RecName: Full=Molybdopterin molybdenumtransferase; Short=MPT Mo-transferase; AltName: Full=Domain E; Includes: RecName: Full=Molybdopterin adenylyltransferase; Short=MPT adenylyltransferase; AltName: Full=Domain G [Arabidopsis thaliana]</Hit_def>
+  <Hit_accession>Q39054</Hit_accession>
+  <Hit_len>670</Hit_len>
+  <Hit_hsps>
+    <Hsp>
+      <Hsp_num>1</Hsp_num>
+      <Hsp_bit-score>21.557</Hsp_bit-score>
+      <Hsp_score>44</Hsp_score>
+      <Hsp_evalue>6.76677</Hsp_evalue>
+      <Hsp_query-from>4</Hsp_query-from>
+      <Hsp_query-to>24</Hsp_query-to>
+      <Hsp_hit-from>535</Hsp_hit-from>
+      <Hsp_hit-to>555</Hsp_hit-to>
+      <Hsp_query-frame>0</Hsp_query-frame>
+      <Hsp_hit-frame>0</Hsp_hit-frame>
+      <Hsp_identity>8</Hsp_identity>
+      <Hsp_positive>13</Hsp_positive>
+      <Hsp_gaps>0</Hsp_gaps>
+      <Hsp_align-len>21</Hsp_align-len>
+      <Hsp_qseq>LMLSLGSTSLLPREINKDKLK</Hsp_qseq>
+      <Hsp_hseq>LILTLGGTGFTPRDVTPEATK</Hsp_hseq>
+      <Hsp_midline>L+L+LG T   PR++  +  K</Hsp_midline>
+    </Hsp>
+  </Hit_hsps>
+</Hit>
+</Iteration_hits>
+  <Iteration_stat>
+    <Statistics>
+      <Statistics_db-num>16085</Statistics_db-num>
+      <Statistics_db-len>7316367</Statistics_db-len>
+      <Statistics_hsp-len>0</Statistics_hsp-len>
+      <Statistics_eff-space>0</Statistics_eff-space>
+      <Statistics_kappa>0.041</Statistics_kappa>
+      <Statistics_lambda>0.267</Statistics_lambda>
+      <Statistics_entropy>0.14</Statistics_entropy>
+    </Statistics>
+  </Iteration_stat>
+</Iteration>
+</BlastOutput_iterations>
+</BlastOutput>

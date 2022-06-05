@@ -22,3 +22,7 @@ class TestDataStructures(TestCase):
 
         sequence = proteome.get_protein_by_id("MyID")
         self.assertEqual(sequence.get_sequence(), "MASLMLSLGSTSLLPREINKDKLKL")
+
+        # Faill to get id
+        with self.assertRaises(KeyError):
+            proteome.get_protein_by_id("MyMissingID")
