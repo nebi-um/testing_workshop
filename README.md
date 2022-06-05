@@ -690,11 +690,11 @@ python -m timeit [-n N] [-r N] [-u U] [-s S] [-h] [statement ...]
 ## Practice Exercises
 
 - Write a test where you test whether the method get_protein_by_id() of the Proteome class raises a KeyError when passing an identifier that does not exist.
-  - [Example](https://github.com/nebi-um/testing_workshop/blob/main/tests/integration_tests/test_data_structures_blast.py)
+  - [Example](https://github.com/nebi-um/testing_workshop/blob/solved_exercises/tests/unit_tests/test_data_structures.py)
 - Write unit and integration tests where it is possible to mock the BLAST call.
-  - [Example](https://github.com/nebi-um/testing_workshop/blob/main/tests/integration_tests/test_data_structures_blast.py)
+  - [Example](https://github.com/nebi-um/testing_workshop/blob/solved_exercises/tests/integration_tests/test_data_structures_blast.py)
 - Write a E2E test with the API call.​
-  - [Example](https://github.com/nebi-um/testing_workshop/blob/main/tests/integration_tests/test_data_structures_blast.py)
+  - [Example](https://github.com/nebi-um/testing_workshop/blob/solved_exercises/tests/end_to_end_tests/test_api_pipeline.py)
 
 <a name="future"></a>
 ## Moving into CI/CD
