@@ -21,7 +21,7 @@ Workshop of code testing
   - [Comand Line Interface](#cmd)
   - [Name Space](#name-space)
 - [Mocks](#mocks)
-  - [Why using mocks](#why-using-mocks)
+  - [Why you should use mocks](#why-mocks)
   - [How to implement them](#how-to-implement-them)
 - [Code coverage](#code-coverage)
 - [Profile](#profile)
@@ -507,8 +507,8 @@ There is tooling for both packages (unittest / pytest), based around the mock li
 - [unittest.mock](https://docs.python.org/3/library/unittest.mock.html)
 - [pytest-mock](https://pypi.org/project/pytest-mock/)
 
-<a name="why-using-mocks"></a>
-### Why using mocks
+<a name="why-mocks"></a>
+### Why you should use mocks
 
 Many times it is very useful to mock code, that is outside the scope of our tests, but it is still used by the code being tested.
 
