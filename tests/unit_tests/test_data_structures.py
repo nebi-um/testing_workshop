@@ -13,6 +13,9 @@ class TestDataStructures(TestCase):
 
     def test_proteome(self):
         protein1 = MagicMock()
+        protein1.identifier = "MyID"
+        protein1.sequence = "MASLMLSLGSTSLLPREINKDKLKL"
+
         protein1.get_sequence.return_value = "MASLMLSLGSTSLLPREINKDKLKL"
         protein1.get_identifier.return_value = "MyID"
         proteome = Proteome(proteins=[protein1])
